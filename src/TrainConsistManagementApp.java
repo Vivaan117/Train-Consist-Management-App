@@ -24,49 +24,45 @@ class Coach {
     }
 }
 
-// Train Class (ArrayList + TreeSet)
+// Train Class (LinkedHashSet)
 class Train {
     private String trainName;
-    private ArrayList<Coach> passengerBogies;
-    private TreeSet<String> sortedBogieIds; // Sorted + Unique
+    private LinkedHashSet<String> bogieOrder; // maintains insertion order
+    private Map<String, Coach> coachMap; // store coach details
 
     public Train(String trainName) {
         this.trainName = trainName;
-        this.passengerBogies = new ArrayList<>();
-        this.sortedBogieIds = new TreeSet<>();
+        this.bogieOrder = new LinkedHashSet<>();
+        this.coachMap = new HashMap<>();
     }
 
-    // Add bogie with sorting + uniqueness
+    // Add bogie
     public void addPassengerBogie(Coach coach) {
 
-        // TreeSet handles uniqueness automatically
-        if (!sortedBogieIds.add(coach.getCoachId())) {
+        if (!bogieOrder.add(coach.getCoachId())) {
             System.out.println("❌ Duplicate Bogie ID not allowed: " + coach.getCoachId());
             return;
         }
 
-        passengerBogies.add(coach);
+        coachMap.put(coach.getCoachId(), coach);
         System.out.println("✅ Added: " + coach);
     }
 
-    // Display train consist
+    // Display consist (in insertion order)
     public void displayConsist() {
         System.out.println("\n🚆 Train: " + trainName);
-        System.out.println("Passenger Bogies:");
+        System.out.println("Bogie Sequence (Insertion Order):");
 
-        for (Coach coach : passengerBogies) {
-            System.out.println("-> " + coach);
+        if (bogieOrder.isEmpty()) {
+            System.out.println("No bogies available.");
+            return;
         }
 
-        System.out.println("Total Bogies: " + passengerBogies.size());
-    }
-
-    // Display sorted bogie IDs
-    public void displaySortedBogieIds() {
-        System.out.println("\n📌 Sorted Bogie IDs:");
-        for (String id : sortedBogieIds) {
-            System.out.println(id);
+        for (String id : bogieOrder) {
+            System.out.println("-> " + coachMap.get(id));
         }
+
+        System.out.println("Total Bogies: " + bogieOrder.size());
     }
 }
 
@@ -75,18 +71,15 @@ public class TrainConsistManagementApp {
     public static void main(String[] args) {
 
         // Step 1: Initialize Train
-        Train train = new Train("Express 404");
+        Train train = new Train("Express 505");
 
-        // Step 2: Add Bogies (unsorted input)
+        // Step 2: Add Bogies
         train.addPassengerBogie(new Coach("P3", "General"));
         train.addPassengerBogie(new Coach("P1", "Sleeper"));
         train.addPassengerBogie(new Coach("P2", "AC"));
         train.addPassengerBogie(new Coach("P1", "Duplicate")); // duplicate
 
-        // Step 3: Display original consist
+        // Step 3: Display consist (in insertion order)
         train.displayConsist();
-
-        // Step 4: Display sorted IDs
-        train.displaySortedBogieIds();
     }
 }
