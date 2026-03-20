@@ -24,19 +24,29 @@ class Coach {
     }
 }
 
-// Train Class (ArrayList for passenger bogies)
+// Train Class (ArrayList + HashSet)
 class Train {
     private String trainName;
     private ArrayList<Coach> passengerBogies;
+    private HashSet<String> bogieIds; // To track uniqueness
 
     public Train(String trainName) {
         this.trainName = trainName;
         this.passengerBogies = new ArrayList<>();
+        this.bogieIds = new HashSet<>();
     }
 
-    // Add passenger bogie
+    // Add bogie with uniqueness check
     public void addPassengerBogie(Coach coach) {
+
+        if (bogieIds.contains(coach.getCoachId())) {
+            System.out.println("❌ Duplicate Bogie ID not allowed: " + coach.getCoachId());
+            return;
+        }
+
         passengerBogies.add(coach);
+        bogieIds.add(coach.getCoachId());
+
         System.out.println("✅ Added: " + coach);
     }
 
@@ -63,14 +73,14 @@ public class TrainConsistManagementApp {
     public static void main(String[] args) {
 
         // Step 1: Initialize Train
-        Train train = new Train("Express 202");
+        Train train = new Train("Express 303");
 
-        // Step 2: Add Passenger Bogies
+        // Step 2: Add Bogies (with duplicate test)
         train.addPassengerBogie(new Coach("P1", "Sleeper"));
         train.addPassengerBogie(new Coach("P2", "AC"));
-        train.addPassengerBogie(new Coach("P3", "General"));
+        train.addPassengerBogie(new Coach("P1", "General")); // duplicate
 
-        // Step 3: Display Consist
+        // Step 3: Display
         train.displayConsist();
     }
 }
