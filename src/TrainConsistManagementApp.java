@@ -24,47 +24,49 @@ class Coach {
     }
 }
 
-// Train Class (ArrayList + HashSet)
+// Train Class (ArrayList + TreeSet)
 class Train {
     private String trainName;
     private ArrayList<Coach> passengerBogies;
-    private HashSet<String> bogieIds; // To track uniqueness
+    private TreeSet<String> sortedBogieIds; // Sorted + Unique
 
     public Train(String trainName) {
         this.trainName = trainName;
         this.passengerBogies = new ArrayList<>();
-        this.bogieIds = new HashSet<>();
+        this.sortedBogieIds = new TreeSet<>();
     }
 
-    // Add bogie with uniqueness check
+    // Add bogie with sorting + uniqueness
     public void addPassengerBogie(Coach coach) {
 
-        if (bogieIds.contains(coach.getCoachId())) {
+        // TreeSet handles uniqueness automatically
+        if (!sortedBogieIds.add(coach.getCoachId())) {
             System.out.println("❌ Duplicate Bogie ID not allowed: " + coach.getCoachId());
             return;
         }
 
         passengerBogies.add(coach);
-        bogieIds.add(coach.getCoachId());
-
         System.out.println("✅ Added: " + coach);
     }
 
-    // Display consist
+    // Display train consist
     public void displayConsist() {
         System.out.println("\n🚆 Train: " + trainName);
         System.out.println("Passenger Bogies:");
-
-        if (passengerBogies.isEmpty()) {
-            System.out.println("No bogies available.");
-            return;
-        }
 
         for (Coach coach : passengerBogies) {
             System.out.println("-> " + coach);
         }
 
         System.out.println("Total Bogies: " + passengerBogies.size());
+    }
+
+    // Display sorted bogie IDs
+    public void displaySortedBogieIds() {
+        System.out.println("\n📌 Sorted Bogie IDs:");
+        for (String id : sortedBogieIds) {
+            System.out.println(id);
+        }
     }
 }
 
@@ -73,14 +75,18 @@ public class TrainConsistManagementApp {
     public static void main(String[] args) {
 
         // Step 1: Initialize Train
-        Train train = new Train("Express 303");
+        Train train = new Train("Express 404");
 
-        // Step 2: Add Bogies (with duplicate test)
+        // Step 2: Add Bogies (unsorted input)
+        train.addPassengerBogie(new Coach("P3", "General"));
         train.addPassengerBogie(new Coach("P1", "Sleeper"));
         train.addPassengerBogie(new Coach("P2", "AC"));
-        train.addPassengerBogie(new Coach("P1", "General")); // duplicate
+        train.addPassengerBogie(new Coach("P1", "Duplicate")); // duplicate
 
-        // Step 3: Display
+        // Step 3: Display original consist
         train.displayConsist();
+
+        // Step 4: Display sorted IDs
+        train.displaySortedBogieIds();
     }
 }
