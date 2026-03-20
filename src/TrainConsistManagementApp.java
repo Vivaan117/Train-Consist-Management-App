@@ -3,7 +3,7 @@ import java.util.*;
 // Coach Model
 class Coach {
     private String coachId;
-    private String type; // Engine, Sleeper, AC, General
+    private String type;
 
     public Coach(String coachId, String type) {
         this.coachId = coachId;
@@ -24,49 +24,51 @@ class Coach {
     }
 }
 
-// Train Class (LinkedList for dynamic structure)
+// Train Class (ArrayList for passenger bogies)
 class Train {
     private String trainName;
-    private LinkedList<Coach> coaches;
+    private ArrayList<Coach> passengerBogies;
 
     public Train(String trainName) {
         this.trainName = trainName;
-        this.coaches = new LinkedList<>();
+        this.passengerBogies = new ArrayList<>();
     }
 
-    public void addCoach(Coach coach) {
-        coaches.add(coach);
+    // Add passenger bogie
+    public void addPassengerBogie(Coach coach) {
+        passengerBogies.add(coach);
+        System.out.println("✅ Added: " + coach);
     }
 
+    // Display consist
     public void displayConsist() {
-        System.out.println("🚆 Train: " + trainName);
-        System.out.println("Consist Summary:");
+        System.out.println("\n🚆 Train: " + trainName);
+        System.out.println("Passenger Bogies:");
 
-        if (coaches.isEmpty()) {
-            System.out.println("No coaches available.");
+        if (passengerBogies.isEmpty()) {
+            System.out.println("No bogies available.");
             return;
         }
 
-        for (Coach coach : coaches) {
+        for (Coach coach : passengerBogies) {
             System.out.println("-> " + coach);
         }
 
-        System.out.println("Total Coaches: " + coaches.size());
+        System.out.println("Total Bogies: " + passengerBogies.size());
     }
 }
 
-// Main Class (UPDATED NAME)
+// Main Class
 public class TrainConsistManagementApp {
     public static void main(String[] args) {
 
         // Step 1: Initialize Train
-        Train train = new Train("Express 101");
+        Train train = new Train("Express 202");
 
-        // Step 2: Add Coaches
-        train.addCoach(new Coach("C1", "Engine"));
-        train.addCoach(new Coach("C2", "Sleeper"));
-        train.addCoach(new Coach("C3", "AC"));
-        train.addCoach(new Coach("C4", "General"));
+        // Step 2: Add Passenger Bogies
+        train.addPassengerBogie(new Coach("P1", "Sleeper"));
+        train.addPassengerBogie(new Coach("P2", "AC"));
+        train.addPassengerBogie(new Coach("P3", "General"));
 
         // Step 3: Display Consist
         train.displayConsist();
