@@ -1,54 +1,32 @@
 import java.util.*;
 
-// Step 1: Custom Runtime Exception
-class CargoSafetyException extends RuntimeException {
-    CargoSafetyException(String message) {
-        super(message);
-    }
-}
-
-// Step 2: Goods Bogie Class
-class GoodsBogie {
-    String type;
-    String cargo;
-
-    GoodsBogie(String type) {
-        this.type = type;
-    }
-
-    void assignCargo(String cargo) {
-        try {
-            // Rule: Rectangular cannot carry Petroleum
-            if (type.equals("Rectangular") && cargo.equals("Petroleum")) {
-                throw new CargoSafetyException("Unsafe: Rectangular bogie cannot carry Petroleum");
-            }
-
-            this.cargo = cargo;
-            System.out.println("Cargo assigned: " + cargo + " to " + type);
-
-        } catch (CargoSafetyException e) {
-            System.out.println("Error: " + e.getMessage());
-
-        } finally {
-            System.out.println("Assignment process completed.\n");
-        }
-    }
-}
-
-// Step 3: Main Class
-public class UC15_CargoHandling {
+public class UC16_BubbleSort {
     public static void main(String[] args) {
 
-        GoodsBogie b1 = new GoodsBogie("Cylindrical");
-        GoodsBogie b2 = new GoodsBogie("Rectangular");
+        // Step 1: Create array of capacities
+        int[] capacities = {72, 56, 24, 70, 60};
 
-        // Safe case
-        b1.assignCargo("Petroleum");
+        // Step 2: Apply Bubble Sort
+        int n = capacities.length;
 
-        // Unsafe case
-        b2.assignCargo("Petroleum");
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
 
-        // Program continues
-        b2.assignCargo("Coal");
+                // Compare adjacent elements
+                if (capacities[j] > capacities[j + 1]) {
+
+                    // Swap
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+                }
+            }
+        }
+
+        // Step 3: Display sorted array
+        System.out.println("Sorted Capacities:");
+        for (int c : capacities) {
+            System.out.print(c + " ");
+        }
     }
 }
