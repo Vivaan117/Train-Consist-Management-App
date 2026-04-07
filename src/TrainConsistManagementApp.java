@@ -1,9 +1,9 @@
 import java.util.*;
 
-public class UC18_LinearSearch {
+public class UC19_BinarySearch {
     public static void main(String[] args) {
 
-        // Step 1: Create array of bogie IDs
+        // Step 1: Sorted array (IMPORTANT)
         String[] bogieIDs = {
                 "BG101",
                 "BG205",
@@ -17,17 +17,27 @@ public class UC18_LinearSearch {
         System.out.print("Enter Bogie ID to search: ");
         String key = sc.nextLine();
 
-        // Step 3: Linear Search
+        // Step 3: Binary Search
+        int left = 0;
+        int right = bogieIDs.length - 1;
         boolean found = false;
 
-        for (String id : bogieIDs) {
-            if (id.equals(key)) {
+        while (left <= right) {
+            int mid = (left + right) / 2;
+
+            int result = key.compareTo(bogieIDs[mid]);
+
+            if (result == 0) {
                 found = true;
-                break; // early termination
+                break;
+            } else if (result > 0) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
             }
         }
 
-        // Step 4: Output result
+        // Step 4: Output
         if (found) {
             System.out.println("Bogie Found!");
         } else {
