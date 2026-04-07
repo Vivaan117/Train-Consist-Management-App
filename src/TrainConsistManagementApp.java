@@ -1,47 +1,48 @@
 import java.util.*;
 
-public class UC19_BinarySearch {
+public class UC20_SearchException {
     public static void main(String[] args) {
 
-        // Step 1: Sorted array (IMPORTANT)
         String[] bogieIDs = {
-                "BG101",
-                "BG205",
-                "BG309",
-                "BG412",
-                "BG550"
+                "BG101", "BG205", "BG309", "BG412", "BG550"
         };
 
-        // Step 2: Input search key
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter Bogie ID to search: ");
-        String key = sc.nextLine();
 
-        // Step 3: Binary Search
-        int left = 0;
-        int right = bogieIDs.length - 1;
-        boolean found = false;
+        try {
+            // Input
+            System.out.print("Enter Bogie ID to search: ");
+            String key = sc.nextLine();
 
-        while (left <= right) {
-            int mid = (left + right) / 2;
-
-            int result = key.compareTo(bogieIDs[mid]);
-
-            if (result == 0) {
-                found = true;
-                break;
-            } else if (result > 0) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
+            // Validate input
+            if (key == null || key.isEmpty()) {
+                throw new IllegalArgumentException("Bogie ID cannot be empty");
             }
-        }
 
-        // Step 4: Output
-        if (found) {
-            System.out.println("Bogie Found!");
-        } else {
-            System.out.println("Bogie Not Found!");
+            // Linear Search
+            boolean found = false;
+            for (String id : bogieIDs) {
+                if (id.equals(key)) {
+                    found = true;
+                    break;
+                }
+            }
+
+            // Output
+            if (found) {
+                System.out.println("Bogie Found!");
+            } else {
+                System.out.println("Bogie Not Found!");
+            }
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        } catch (Exception e) {
+            System.out.println("Unexpected Error Occurred");
+
+        } finally {
+            System.out.println("Search operation completed.");
         }
     }
 }
