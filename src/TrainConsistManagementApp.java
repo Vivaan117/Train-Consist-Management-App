@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.*;
 
 class Bogie {
     String name;
@@ -10,18 +11,23 @@ class Bogie {
     }
 }
 
-public class UC7_SortBogies {
+public class UC8_FilterBogies {
     public static void main(String[] args) {
-        List<Bogie> list = new ArrayList<>();
 
-        list.add(new Bogie("Sleeper", 72));
-        list.add(new Bogie("AC Chair", 56));
-        list.add(new Bogie("First Class", 24));
+        // Step 1: Reuse list from UC7
+        List<Bogie> bogies = new ArrayList<>();
+        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("AC Chair", 56));
+        bogies.add(new Bogie("First Class", 24));
 
-        list.sort(Comparator.comparingInt(b -> b.capacity));
+        // Step 2: Apply Stream Filtering (capacity > 60)
+        List<Bogie> filtered = bogies.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
 
-        System.out.println("Sorted Bogies:");
-        for (Bogie b : list) {
+        // Step 3: Display result
+        System.out.println("Filtered Bogies (Capacity > 60):");
+        for (Bogie b : filtered) {
             System.out.println(b.name + " -> " + b.capacity);
         }
     }
