@@ -11,24 +11,29 @@ class Bogie {
     }
 }
 
-public class UC8_FilterBogies {
+public class UC9_GroupBogies {
     public static void main(String[] args) {
 
-        // Step 1: Reuse list from UC7
+        // Step 1: Create list
         List<Bogie> bogies = new ArrayList<>();
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 56));
+        bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("First Class", 24));
 
-        // Step 2: Apply Stream Filtering (capacity > 60)
-        List<Bogie> filtered = bogies.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
+        // Step 2: Group using Stream
+        Map<String, List<Bogie>> grouped =
+                bogies.stream()
+                        .collect(Collectors.groupingBy(b -> b.name));
 
-        // Step 3: Display result
-        System.out.println("Filtered Bogies (Capacity > 60):");
-        for (Bogie b : filtered) {
-            System.out.println(b.name + " -> " + b.capacity);
+        // Step 3: Display grouped data
+        System.out.println("Grouped Bogies:");
+
+        for (String key : grouped.keySet()) {
+            System.out.println("\n" + key + ":");
+            for (Bogie b : grouped.get(key)) {
+                System.out.println("Capacity -> " + b.capacity);
+            }
         }
     }
 }
